@@ -4,6 +4,7 @@ MoodleTimePlanner
 A moodlized version of my student time planner.  
 Provides a more user friendly calendar of all the user's deadlines in all courses enrolled.  
 When a user opens the timeplanner for the first time they will need to be logged into Moodle - however all subsequent times the app will draw the user information from a local cookie on the system.  
+Supports user created event deadlines as well.  
 App is deployed right inside the moodle course.   
   
 USAGE
