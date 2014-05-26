@@ -1,0 +1,152 @@
+html {
+    overflow-y: scroll;
+}
+
+body {
+	margin: 10px;
+	padding: 0px;
+	border-style: none;
+	background: #333333;
+	color: #FFFFFF;
+	font-family: verdana,arial,helvetica,sans-serif;
+    font-size:0.6875em; /* 11px */
+}
+
+img {
+    padding: 0px;
+    margin: 0px;
+    border-style: none;
+}
+
+a {
+	text-decoration: none;
+	color: #666666;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+#instructions {
+    display:inline-block;
+    vertical-align:top;
+    width:30%;
+    max-width:180px;
+    height:100%;
+    padding-right:0px;
+    margin-right:10px;
+	text-align:right;
+}
+
+#compressedInstructions {
+    display:none;
+    padding-bottom:10px;
+    background-color:#282828;
+    padding:10px;
+}
+
+#calendarPane {
+    display:inline-block;
+    width:65%;
+    max-width:450px;
+    border-left-style:dotted;
+	border-left-width:1px;
+	border-left-color:#C0C0C0;
+    padding-left:15px;
+}
+
+#helpPane {
+    padding-left:0px;
+    padding-top:5px;
+    padding-bottom:15px;
+    background:#333333;
+    border-bottom-style:dotted;
+	border-bottom-width:1px;
+	border-bottom-color:#C0C0C0;
+	margin-bottom:10px;
+    display:none;
+}
+
+.detailsPane {
+    padding-left:15px;
+    padding-top:5px;
+    padding-bottom:10px;
+    background:#333333;
+    border-bottom-style:dotted;
+	border-bottom-width:1px;
+	border-bottom-color:#C0C0C0;
+	margin-bottom:10px;
+    display:none;
+}
+
+.dayPane {
+    border-bottom-style:dotted;
+	border-bottom-width:1px;
+	border-bottom-color:#333333;
+    margin-bottom:8px;
+    margin-top:8px;
+    padding-bottom:8px;
+}
+
+.deadlinePane {
+    margin-top:5px;
+}
+
+.monthPane {
+    /*width:205px;*/
+}
+
+.month {
+    color:#666666;
+    font-size:1.6363636363636363636363636363636em; /* 18px */
+    font-weight:bold;
+}
+
+.icons {
+    margin-right:3px;
+    vertical-align:text-top;
+}
+
+.it1Color {
+    color:#eecc00;
+}
+
+.it2Color {
+    color:#46ff66;
+}
+
+.imog1Color {
+    color:#eecc22;
+}
+
+.imog2Color {
+    color:#00ffff;
+}
+
+.generalColor {
+    color:#FFFFFF;
+}
+
+.date {
+    color:#FFFFFF;
+    font-size:1.0909090909090909090909090909091em; /* 12px */
+}
+
+.weekDivider {
+    border-bottom-style:solid;
+    border-bottom-width:1px;
+    border-bottom-color:#555555;
+    margin-bottom:15px
+}
+
+#loadingOverlay {
+    position:absolute;
+    left:0px;
+    top:0px;
+    right:0px;
+    bottom:0px;
+    visibility:visible;
+    color:#FFFFFF;
+    background-color:#333333;
+    opacity:0.98;
+}

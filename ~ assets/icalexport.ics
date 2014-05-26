@@ -1,0 +1,124 @@
+BEGIN:VCALENDAR
+METHOD:PUBLISH
+PRODID:-//John Papaioannou/NONSGML Bennu 0.1//EN
+VERSION:2.0
+BEGIN:VEVENT
+UID:1989@mbds.net172.ca
+SUMMARY:Last Day of Fall Semester
+DESCRIPTION:
+CLASS:PUBLIC
+LAST-MODIFIED:20131107T181050Z
+DTSTAMP:20131204T183729Z
+DTSTART:20131213T040000Z
+CATEGORIES:Global events
+END:VEVENT
+BEGIN:VEVENT
+UID:3373@mbds.net172.ca
+SUMMARY:test assignment for moodle timeplanner
+DESCRIPTION:Programming Assignment III\nPROG1100 Programming I\n \nEvaluati
+	 on : 30% of final grade\nDue Date : Dec 10\n \nAssignment Description\nProg
+	 ramming project III will be to design and develop a “choose your own advent
+	 ure” story windows application.  In other words\, you will develop a simple
+	  interactive story in which the user can make decisions via clicking button
+	 s that will affect the overall plot and outcome.\n \nRequirements include:\
+	 n\nYour story must contain four points where decisions are to be made. Thes
+	 e decision points consist of an image\, some story plot text\, and two stor
+	 y option buttons that are labelled accordingly to what your options are in 
+	 the story.\nYour story/images can be of whatever you choose – be creative!\
+	 nYour story must include three possible endings.\nAll story content must be
+	  drawn from an external Access database (plot text\, two story options\, im
+	 age filename\, etc.). This means that you can add\, edit\, and delete conte
+	 nt in the database and the story should reflect these changes next time the
+	  app is executed. Use the provided database (game.accdb) as a template and 
+	 edit it to your own story. Note that for testing purposes I will be swappin
+	 g out this database with a different one (more records\, different destinat
+	 ion points\, etc) to see if the changes are reflected in the story.\nWhen t
+	 he game starts up the user should see a blank form except the story name (s
+	 tart screen).\nWhen the game is over an image and the final story plot text
+	  but no buttons.\nA menu must be included in the game that has five menu it
+	 ems:\n\n\nA new game menu item that starts a new game\nA save menu item tha
+	 t will save your game in an external text file. This menu item should be di
+	 sabled if the game hasn’t actually started (on the start screen) or the gam
+	 e is currently over. Only one game can be saved/loaded and thus there is no
+	  need to provide the user with open or save dialog popups in this applicati
+	 on. Feedback should be displayed to the user when the game has been saved s
+	 uccessfully.\nA load menu item that will load a previously saved game. If n
+	 o game has been previously saved then this menu item should be disabled.\nA
+	 n about menu item which opens a new form. The form should contain additiona
+	 l information and an image of the developer. Naturally\, you will want to p
+	 rovide a way to close the form\; but also include functionality that will a
+	 utomatically close the form if the user clicks anywhere outside of the form
+	 .\nA quit menu item that shuts the application down at any time\n\n\nThe en
+	 tire windows application must contain only two forms (frmMain / frmAbout)\n
+	 All connection\, data adapter\, and dataset objects must be generated via c
+	 ode and NOT via the toolbox in visual studio (do it how we did during our l
+	 essons)\nThis application must not include any repeated blocks of code (the
+	 se should be modularized inside sub or function procedures)\nThis applicati
+	 on must include some custom visual design (size\, button size\, fonts\, for
+	 m icons\, colors\, etc.) as well as be user-friendly!\nBe sure to include i
+	 nformative comments in your code\n\n \n \nSee other side…\nRequirements (Ma
+	 rks breakdown)\n\n\n\n\nChoose Your Own Adventure Game Windows Application\
+	 n\n\n \n\n\n\n\nForm visual design\nOverall game functionality\nConnecting 
+	 to the database\, population\, displaying content\, well-formed non-redunda
+	 nt code\, etc...\nMenu new game functionality\nMenu save game functionality
+	 \nMenu load game functionality\nMenu about functionality\nMenu exit functio
+	 nality\nComments included\n\n\n1\n16\n \n3\n5\n5\n3\n1\n2\n\n\n\n\nTOTAL MA
+	 RK\n\n\n36\n\n\n\n\n \nOther Notes\n\nIf you are unfamiliar with “Choose Yo
+	 ur Own Adventure” style stories\, check out http://en.wikipedia.org/wiki/Ch
+	 oose_Your_Own_Adventure\nRemember to test this application thoroughly to me
+	 et all project requirements and to avoid any runtime errors.\nThe images fo
+	 r the story are NOT embedded into the database but are kept externally in a
+	  directory with the EXE (in the debug folder).  The only data pertaining to
+	  the images that is kept in the database is the filenames of the images. Be
+	  sure to use copyright free images in your game.\nWhen completed\, zip the 
+	 ENTIRE folder of your Visual Basic.NET Project (including the access databa
+	 se file (accdb) and the external image files) and email to sean.morrow@nscc
+	 .ca by lesson time on the due date. We will mark this project face to face 
+	 on the due date.\nSince this assignment is due so close to the last day of 
+	 the semester\, no late assignments can be accepted.  \n
+	 
+CLASS:PUBLIC
+LAST-MODIFIED:20131204T182900Z
+DTSTAMP:20131204T183729Z
+DTSTART:20131213T182500Z
+CATEGORIES:WEBD 2000 SM
+END:VEVENT
+BEGIN:VEVENT
+UID:3374@mbds.net172.ca
+SUMMARY:another test assignment
+DESCRIPTION:Take control of the inner battle between white blood cells/Anti
+	 bodies and bacteria/viruses that is happening right now inside you. Develop
+	 ed over the span of three spring semesters\, Nano! introduced me to a wide 
+	 range of cool techniques for developing games using Actionscript and Adobe 
+	 AIR for mobile platforms. Bitmap blitting\, object pooling\, among others w
+	 ere employed as well as custom made graphics and sound effects (a lot of ti
+	 me spent gurgling in the recording booth). This app was developed for deplo
+	 yment on Android tablets/Data Phones...
+	 
+CLASS:PUBLIC
+LAST-MODIFIED:20131204T183713Z
+DTSTAMP:20131204T183729Z
+DTSTART:20131213T183500Z
+CATEGORIES:WEBD 2000 SM
+END:VEVENT
+BEGIN:VEVENT
+UID:3359@mbds.net172.ca
+SUMMARY:Pre-Production Documentation Project 
+DESCRIPTION:See project sheet for details
+CLASS:PUBLIC
+LAST-MODIFIED:20131203T134550Z
+DTSTAMP:20131204T183729Z
+DTSTART:20140115T173000Z
+CATEGORIES:INFT 3000 SM
+END:VEVENT
+BEGIN:VEVENT
+UID:3361@mbds.net172.ca
+SUMMARY:Game Design Document Project 
+DESCRIPTION:See project sheet for details - Project Sheet\n
+CLASS:PUBLIC
+LAST-MODIFIED:20131203T140307Z
+DTSTAMP:20131204T183729Z
+DTSTART:20140117T173000Z
+CATEGORIES:IMOG 4050 SM
+END:VEVENT
+END:VCALENDAR

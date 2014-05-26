@@ -1,0 +1,36 @@
+@media screen and (max-width:680px) {
+    body {
+        margin:0px;
+        font-size:0.75em;
+    }
+
+    #instructions {
+        display:none;
+    }
+
+    #calendarPane {
+        display:block;
+        width:100%;
+        height:100%;
+        max-width:none;
+        border-left-style:none;
+        padding-left:0px;
+    }
+
+    #compressedInstructions {
+        display:block;
+        padding:15px;
+        line-height:1.5em;
+    }
+
+    #helpPane {
+        padding:15px;
+        border-bottom-style:solid;
+        border-bottom-width:10px;
+        border-bottom-color:#282828;
+    }
+
+    #contentPane {
+        padding:15px;
+    }
+}

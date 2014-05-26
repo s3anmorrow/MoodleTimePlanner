@@ -1,0 +1,102 @@
+﻿<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Login implemented with Javascript</title>
+		<link rel="stylesheet" type="text/css" href="resources/adminStyles.css" />
+		
+        <script type="text/javascript" src="resources/responseTrace.js"></script>
+        <script type="text/javascript" src="resources/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript">
+            // constants of server sided script urls
+            var loginScript = "scripts/checkLogin.aspx";
+            var adminScript = "timePlannerAdmin.aspx";
+
+            // XMLHttpRequest object
+            var xmlhttp;
+            // the xml returned by the XmlHttpRequest object (via JQuery AJAX)
+            var responseXml;
+
+			// ------------------------------------------------------------------------- event handlers
+			function onSubmit() {
+			    if (($("#txtUserName").val() != "") && ($("#txtPassword").val() != "")) {
+    		        $("#lblFeedback").html("");
+			        disableMe();
+					
+                    // create XML tree to send based on user input
+		            var sendXML = "<request><user>" + $("#txtUserName").val() + "</user><pass>" + $("#txtPassword").val() + "</pass></request>";
+                    // send request to the server
+		            $.ajax({
+		                type: "POST", url: loginScript, contentType: "text/xml", data: sendXML, success: onResponse
+                    });
+                } else {
+                    $("#lblFeedback").html("Incomplete Input : Please try again...");
+	            }
+            }
+
+            function onResponse(result, textStatus, xmlhttp) {
+                // testing response
+                //responseTrace(xmlhttp);
+
+		        // grab the XML response
+                responseXml = xmlhttp.responseXML;
+                // was access granted - pull answer from XML
+                var access = responseXml.getElementsByTagName("access")[0].childNodes[0].nodeValue;
+		        if (access == "true") {
+			        window.location = adminScript;
+			    } else {
+			        $("#lblFeedback").html("Incorrect Login : Please try again...");
+			        enableMe();
+		        }
+			}
+
+			// ------------------------------------------------------- private methods
+			function disableMe() {
+			    // disabling the entire RIA using loading overlay
+			    $("#loadingOverlay").show();
+			}
+
+			function enableMe() {
+			    // fade out loading overlay
+			    $("#loadingOverlay").delay(300).fadeOut(300);
+			}
+
+            // ------------------------------------------------------- JQuery Implementation
+			$(document).ready(function () {
+			    // setup event for submit button
+			    $("input:button").click(onSubmit);
+			});
+			
+			
+		</script>
+		
+    </head>
+    <body>
+        <div class="headerPane">
+            <img src="resources/titleAdmin.png" alt="Student Timeplanner Administration" />
+        </div>
+		
+		<div class="menuPane">
+			<br/>
+			Please enter your username and password to continue...<br/><br/>
+			<table>
+				<tr><td>Username:</td><td><input id="txtUserName" type="text" size="15" maxlength="20" class="textboxes" /></td></tr>
+				<tr><td>Password:</td><td><input id="txtPassword" type="password" size="15" maxlength="20" class="textboxes" /></td></tr>
+				<tr>
+					<td></td>
+					<td>
+						<input type="button" value="Submit" class="buttons" /><br/><br/>
+						<div id="lblFeedback"></div>
+					
+					</td>
+				</tr>
+			</table>
+		</div>
+
+        <div id="loadingOverlay" class="overlay" style="display:none">
+		    <div style="position:absolute;left:250px;top:200px;"><img src="resources/loadingAdmin.gif" style="vertical-align:middle" alt="Loading" /> Loading Data...Please wait :)</div>
+	    </div>
+		
+		
+    </body>
+</html>

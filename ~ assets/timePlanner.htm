@@ -1,0 +1,327 @@
+﻿<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width">
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" >
+        <title>Web App Dev : Timeplanner</title>
+        <link rel="stylesheet" type="text/css" href="resources/styles.css" />
+        <link rel="stylesheet" type="text/css" href="resources/responsiveStyles.css" />
+        <script type="text/javascript" src="resources/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="resources/jquery.blockUI.js"></script>
+        <script type="text/javascript" src="resources/jquery.cookie.js"></script>
+        <script type="text/javascript" src="resources/addDays.js"></script>
+        <script type="text/javascript">
+            // TODO
+            // add year to database so that next and previous can go into other years
+
+            // retrieve server sided script
+            var retreiveScript = "scripts/retrieveData.aspx";
+            // xmlHttpRequest object for carrying out AJAX
+            var xmlhttp;
+            // user's browser type (1 = all modern browsers except IE, 2 = IE)
+            var browser;
+            // XML document object that contains all deadline data
+            var deadlineXml;
+            // day adjustment for next/previous navigation links
+            var adjustment;
+            // the type of student to build the calendar for (default = IT AD Web students)
+            var studentType;
+			// arrays for converting data to full names
+			var months = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
+			var weekdays = new Array("Sun", "Mon", "Tues", "Weds", "Thurs", "Fri", "Sat");
+			var studentTypes = new Array("General Posting","1st Year IT Students","2nd Year IT Web AD Students","1st Year iMOG Students","2nd Year iMOG Students");
+            var studentTypeClasses = new Array("generalColor","it1Color","it2Color","imog1Color","imog2Color");
+
+            // grab current date from system clock
+            var dateCurrent = new Date();
+			// date object counter for building calendar
+            var dateCounter;
+
+            // ------------------------------------------------------- private methods
+            function buildCalendar() {
+				var dueMonth;
+				var dueDay;
+				var xpath;
+				var nodes;
+				var result;
+				var out = "";
+				var august = false;
+				var july = false;
+
+                // clear out calendar for work to be done to it
+				$("#contentPane").html("");
+                // close any panes that might be open
+				closeAll();
+
+				// build calendar for a two week span
+                // grab current date
+				dateCounter = new Date();
+                // add/subtract days for next/previous navigation to setup dateCounter to be on correct day to start from
+				if (adjustment != 0) dateCounter = dateCounter.addDays(adjustment);
+
+				for (var n = 0; n < 15; n++) {
+				    // check if we have august or july added to the calendar yet (disable previous or next)
+				    if (dateCounter.getMonth() == 6) july = true;
+				    else if (dateCounter.getMonth() == 7) august = true;
+
+				    // pull out proper month and day data from date object
+                    dueMonth = dateCounter.getMonth() + 1;
+                    //dueMonth = dateCounter.getMonth();
+				    dueDay = dateCounter.getDate();
+
+                    // drop week divider line if the day is a sunday
+				    if ((dateCounter.getDay() == 0) && (n != 0)) {
+				        out += "<div class='weekDivider'></div>";
+				    }
+				    // begin constructing output HTML string for day
+				    if ((dateCounter.getDate() == 1) || (n == 0)) {
+				        // add name of month
+				        out += "<div class='monthPane'>";
+				        out += "<span class='month'>" + months[dueMonth - 1] + " </span>";
+				        if (n == 0) {
+				            out += "<span style='float:right;margin-top:7px'>";
+				            out += "<a href='#' id='lnkPrevious' onclick='onPrevious();'>Previous</a><span id='lnkPreviousDead' style='display:none;color:#444444'>Previous</span> <span style='color:#666666;'>|</span> <a href='#' id='lnkNext' onclick='onNext();'>Next</a><span id='lnkNextDead' style='display:none;color:#444444'>Next</span>";
+				            out += "</span>";
+				        }
+				        out += "</div>";
+				    }
+				    out += "<div id='day" + n + "' class='dayPane'>";
+				    out += "<div class='date'>" + dateCounter.getDate() + " " + weekdays[dateCounter.getDay()];
+				    if (dateCounter.toDateString() == dateCurrent.toDateString()) out += " : Today"
+				    out += "</div>";
+
+                    // setup xpath for data retrieval from XML
+					xpath = "/deadlines/deadline[duemonth=" + dueMonth + " and dueday=" + dueDay + "]";
+
+					if (browser == 1) {
+                        // xpath with all modern browsers
+                        // retrieve nodes with xpath query
+					    nodes = deadlineXml.evaluate(xpath, deadlineXml, null, XPathResult.ANY_TYPE, null);
+                        // move pointer on to first node in returned node list from xpath query
+					    result = nodes.iterateNext();
+                        // loop until result = null
+					    while (result) {
+					        // only add deadline if for target student type
+					        if ((result.getElementsByTagName("year")[0].childNodes[0].nodeValue == studentType) || (result.getElementsByTagName("year")[0].childNodes[0].nodeValue == 0)) {
+					            out = generateDeadlineHTML(out, result);
+					        }
+                            // move to the next node
+					        result = nodes.iterateNext();
+					    }
+					} else if (browser == 2) {
+                        // xpath for IE5/IE6
+					    nodes = deadlineXml.selectNodes(xpath);
+					    for (var i = 0; i < nodes.length; i++) {
+					        if ((nodes[i].getElementsByTagName("year")[0].childNodes[0].nodeValue == studentType) || (nodes[i].getElementsByTagName("year")[0].childNodes[0].nodeValue == 0)) {
+					            out = generateDeadlineHTML(out, nodes[i]);
+					        }
+                        }
+                    }
+					out += "</div>";
+
+					// add a day to the date object
+					dateCounter = dateCounter.addDays(1);
+                }
+
+                // drop output into contentPane
+				$("#contentPane").html(out);
+
+                // setup rollover for btnClose button for both detailsPane and helpPane
+				$("img.btnClose").hover(
+                    function () {
+                        this.src = this.src.replace("_off", "_on");
+                    },
+                    function () {
+                        this.src = this.src.replace("_on", "_off");
+                    }
+                );
+
+                // interface adjustments
+                // adjusting the student type filter link to be selected
+                for (n = 1; n <= 4; n++) $("#lnkFilter" + n).css("color", "#555555");
+                $("#lnkFilter" + studentType).html($("#lnkFilter" + studentType).html());
+                $("#lnkFilter" + studentType).css("color", "#FFFFFF");
+                for (n = 1; n <= 4; n++) $("#lnkFilter" + n + "Compressed").css("color", "#555555");
+                $("#lnkFilter" + studentType + "Compressed").html($("#lnkFilter" + studentType + "Compressed").html());
+                $("#lnkFilter" + studentType + "Compressed").css("color", "#FFFFFF");
+
+                // disabling next and previous links for beginning and end of school year
+                if (july) $("#lnkNext,#lnkNextDead").toggle();
+                else if (august) $("#lnkPrevious,#lnkPreviousDead").toggle();
+            }
+
+            function generateDeadlineHTML(out, source) {
+                out += "<div class='deadlinePane'>" + 
+                       "<img src='resources/" + studentTypeClasses[source.getElementsByTagName("year")[0].childNodes[0].nodeValue] + ".png' alt='Deadline' class='icons' />" + 
+                       "<a href='#' id='lnk" + source.getAttribute("id") + "' onclick='onDetails(" + source.getAttribute("id") + ");return false;' class='" + studentTypeClasses[source.getElementsByTagName("year")[0].childNodes[0].nodeValue] + "'>" + source.getElementsByTagName("name")[0].childNodes[0].nodeValue + "</a>" +
+                       "</div>";
+                out += "<div id='details" + source.getAttribute("id") + "' class='detailsPane'>" +
+                       "<img class='btnClose' src='resources/btnClose_off.png' alt='Close Details Pane' onclick='onClose();' style='float:right' />" +
+                       "<b>" + source.getElementsByTagName("name")[0].childNodes[0].nodeValue + "</b><br/>" +
+                       "<b>Due on: </b>" + months[source.getElementsByTagName("duemonth")[0].childNodes[0].nodeValue - 1] + " " + source.getElementsByTagName("dueday")[0].childNodes[0].nodeValue + "<br/>" +
+                       "<b>Assigned to: </b>" + studentTypes[source.getElementsByTagName("year")[0].childNodes[0].nodeValue] + "<br/>" +
+                       "<b>Instructor: </b>" + source.getElementsByTagName("authorname")[0].childNodes[0].nodeValue + "<br/>";
+                var description = source.getElementsByTagName("description")[0].childNodes[0].nodeValue;
+                // swap out carriage returns with <br/>
+                description = description.replace(/\n/g, "<br/>");
+                out += "<b>Description:</b><br/>" + description + "<br/>" +
+                       "</div>";
+                return out;
+            }
+
+            // ------------------------------------------------------- event handlers
+            function onDetails(targetID) {
+                if ($("#details" + targetID).css("display") == "none") {
+                    // close all panes if any opened
+                    closeAll();
+                    // change color of close button on detailsPane to match student type
+                    $("#details" + targetID + " img.btnClose").attr("src", "resources/btnType" + studentType + "Close_off.png");
+                    // make detailsPane visible
+                    $("#details" + targetID).slideDown();
+                }
+            }
+
+            function onHelp() {
+                if ($("#helpPane").css("display") == "none") {
+                    // close all panes if any opened
+                    closeAll();
+                    // make pane visible
+                    $("#helpPane").slideDown();
+                }
+            }
+
+            function closeAll() {
+                // close all open panes
+                $(".detailsPane").css("display", "none");
+                $("#helpPane").css("display", "none");
+            }
+
+            function onClose() {
+                // close both panes (both close buttons call this method)
+                $("#helpPane").slideUp();
+                $(".detailsPane").slideUp();
+            }
+
+            function onNext() {
+                // adjusting how many days after current day
+                adjustment += 15;
+                buildCalendar();
+            }
+
+            function onPrevious() {
+                // adjusting how many days before current day
+                adjustment -= 15;
+                buildCalendar();
+            }
+
+            function onFilter(type) {
+                studentType = type;
+                // save filter type in cookie
+                $.cookie("studentType", studentType, { expires:365 });
+                // rebuild calendar with new student type
+                buildCalendar();
+            }
+
+            function onLoaded() {
+                // has the response been received successfully?
+                if ((xmlhttp.readyState == 4) && (xmlhttp.status == 200)) {
+                    // grab the XML response
+                    deadlineXml = xmlhttp.responseXML;
+                    // day adjustment is initialized - want to view two week span starting with today
+                    adjustment = 0;
+
+                    // set studentType according to cookie if exists
+                    //alert("test: " + $.cookie("studentType"));
+                    if ($.cookie("studentType") != null) {
+                        studentType = $.cookie("studentType")
+                    } else {
+                        studentType = 2;
+                    }
+
+                    // build the calendar
+                    buildCalendar();
+                    // fade out loading overlay
+                    $("#loadingOverlay").delay(300).fadeOut(300);
+                }
+            }
+
+            function onSetup() {
+                // disabling the entire RIA using loading overlay
+                $("#loadingOverlay").show();
+                // determine user's browser for XPath functionality later on
+                browser = 1;
+                if (jQuery.browser.msie) browser = 2;
+                // send out request to retrieve XML
+                if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp = new XMLHttpRequest();
+                } else { // code for IE6, IE5
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange = onLoaded;
+                xmlhttp.open("POST", retreiveScript + "?tricky=" + Math.random(), true);
+                xmlhttp.send();
+            }
+
+            $(document).ready(function () {
+                // preload loading animated image
+                var myImage = new Image();
+                myImage.onload = onSetup;
+                myImage.src = "resources/loading.gif";
+            });
+
+        </script>
+    </head>
+    <body>
+        <div id="main">
+            <div id="instructions">
+                <img src="resources/title.png" alt="Student Timeplanner" />
+                <br /><br />
+                <div style="float:right;">
+                    Click the list of links on the right to view details for the corresponding deadline. Click the link below according to what type of student you are and navigate to other biweekly periods with the next and previous links.<br /><br />
+                    You are a:<br />
+                    <div style="text-align:right;">
+                        <a href="#" id="lnkFilter1" onclick="onFilter(1);">1st Year IT Student</a><br />
+                        <a href="#" id="lnkFilter2" onclick="onFilter(2);">2nd Year IT Web AD Student</a><br />
+                        <a href="#" id="lnkFilter3" onclick="onFilter(3);">1st Year iMOG Student</a><br />
+                        <a href="#" id="lnkFilter4" onclick="onFilter(4);">2nd Year iMOG Student</a><br />
+                    </div>
+                    <br />
+                    <a href='#' onclick='onHelp();'>Help</a>
+                </div>
+            </div>
+            <div id="calendarPane">
+                <div id="compressedInstructions">
+                    <img src="resources/titleHorizontal.png" alt="Student Timeplanner" />
+                    <br /><br />
+                    Click the list of links to view details for the corresponding deadline. Click the link below according to what type of student you are and navigate to other biweekly periods with the next and previous links.<br /><br />
+                    You are a:<br />
+                    <div style="text-align:left;">
+                        <a href="#" id="lnkFilter1Compressed" onclick="onFilter(1);">1st Year IT Student</a><br />
+                        <a href="#" id="lnkFilter2Compressed" onclick="onFilter(2);">2nd Year IT Web AD Student</a><br />
+                        <a href="#" id="lnkFilter3Compressed" onclick="onFilter(3);">1st Year iMOG Student</a><br />
+                        <a href="#" id="lnkFilter4Compressed" onclick="onFilter(4);">2nd Year iMOG Student</a><br />
+                    </div>
+                    <br />
+                    <a href='#' onclick='onHelp();'>Help</a>
+                </div>
+                <div id="helpPane">
+                    <img class="btnClose" src="resources/btnClose_off.png" alt="Close Help Pane" onclick="onClose();" style="float:right" />
+                    <div class="month" style="padding-bottom:5px;">Timeplanner : Help</div>
+                    The IT/IMOG industry is heavily deadline based and naturally our programs at the NSCC are no different. The trick is to manage your time effectively in order to complete all the projects on time! Procrastination is something we all do, but don't let it get the better of you. This timeplanner was developed to help you achieve the goal of better time management.
+                    <br /><br />
+                    Your greatest resource is your time.
+                    <br /><br />
+                    <b>What's a deadline?</b><br />
+                    If you look at the calendar you will notice that some days contain colored links.  This is a deadline. Click on any of these deadlines to get a detailed view of the due date, description, etc.
+                </div>
+                <div id="contentPane"></div>
+            </div>   
+        </div>
+
+		<div id="loadingOverlay">
+			<div style="width:300px;height:20px;position:absolute;margin-left:10%;margin-top:10%;"><img src="resources/loading.gif" style="text-align:center;margin-right:5px;" alt="Loading" /> Loading Data - Please wait... :)</div>
+		</div>	
+
+    </body>
+</html>

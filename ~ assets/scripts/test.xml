@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<deadlines>
+    <deadline>
+        <name>Multimedia Project I</name>
+        <author>smorrow</author>
+        <description>The scenario: Due to a mismanagement of resources, a half completed Flash project is placed on your desk.  The project is a simple picture viewer with some added features such as an introduction screen and a picture counter.  The developer who previously worked on the project had inadvertently introduced several problems into the flash movie.  To make matters</description>
+        <duemonth>12</duemonth>
+        <dueday>31</dueday>
+    </deadline>
+    <deadline>
+        <name>HTML Project I</name>
+        <author>smorrow</author>        
+        <description>This assignment will require the student to exercise effective pre-production planning for the development of an online portfolio website.  This includes technical documentation and storyboarding.  On top of this, the assignment will also require the student to develop the first working page of their portfolio website; their resume.</description>
+        <duemonth>12</duemonth>
+        <dueday>31</dueday>
+    </deadline>
+    <deadline>
+        <name>HTML Project I</name>
+        <author>smorrow</author>        
+        <description>This assignment will require the student to exercise effective pre-production planning for the development of an online portfolio website.  This includes technical documentation and storyboarding.  On top of this, the assignment will also require the student to develop the first working page of their portfolio website; their resume.</description>
+        <duemonth>12</duemonth>
+        <dueday>31</dueday>
+    </deadline>    
+    <deadline>
+        <name>HTML Project II</name>
+        <author>rgibson</author>        
+        <description>This assignment will require the student to exercise effective pre-production planning for the development of an online portfolio website.  This includes technical documentation and storyboarding.  On top of this, the assignment will also require the student to develop the first working page of their portfolio website; their resume.</description>
+        <duemonth>12</duemonth>
+        <dueday>31</dueday>
+    </deadline>  
+    <deadline>
+        <name>HTML Project III</name>
+        <author>cmarshall</author>        
+        <description>This assignment will require the student to exercise effective pre-production planning for the development of an online portfolio website.  This includes technical documentation and storyboarding.  On top of this, the assignment will also require the student to develop the first working page of their portfolio website; their resume.</description>
+        <duemonth>12</duemonth>
+        <dueday>5</dueday>
+    </deadline>
+    <deadline>
+        <name>HTML Project Again</name>
+        <author>smorrow</author>        
+        <description>This assignment will require the student to exercise effective pre-production planning for the development of an online portfolio website.  This includes technical documentation and storyboarding.  On top of this, the assignment will also require the student to develop the first working page of their portfolio website; their resume.</description>
+        <duemonth>12</duemonth>
+        <dueday>31</dueday>
+    </deadline>      
+    <deadline>
+        <name>HTML Project IV</name>
+        <author>smorrow</author>        
+        <description>This assignment will require the student to exercise effective pre-production planning for the development of an online portfolio website.  This includes technical documentation and storyboarding.  On top of this, the assignment will also require the student to develop the first working page of their portfolio website; their resume.</description>
+        <duemonth>11</duemonth>
+        <dueday>22</dueday>
+    </deadline>    
+</deadlines>
